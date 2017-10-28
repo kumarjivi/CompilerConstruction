@@ -2,8 +2,10 @@ package projectTwo;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -16,16 +18,26 @@ public class Symbols {
 	private List<String> simpleRulesList = new ArrayList<String>();
 	private Set<String> terminalSet = new HashSet<String>();
 	private Set<String> nonTerminalSet = new HashSet<String>();
+	private Map<String, Integer> terminalSymMap = null;
+	private Map<String, Integer> nonTerminalSymMap = null;
+	Map<String, List<Integer>> nonTerminalVsRuleIdsMap = new HashMap<String, List<Integer>>();
 	
 	public List<String> getSimpleRulesList() {
 		return simpleRulesList;
 	}
-	public Set<String> getTerminalSet() {
-		return terminalSet;
+	
+	
+	public Map<String, Integer> getTerminalSymMap() {
+		return terminalSymMap;
 	}
-	public Set<String> getNonTerminalSet() {
-		return nonTerminalSet;
+	
+	
+
+	public Map<String, Integer> getNonTerminalSymMap() {
+		return nonTerminalSymMap;
 	}
+
+
 	protected void readGrammarFile(String fileName) {
 		File file = new File(fileName);
 		Scanner sc = null;
@@ -40,12 +52,15 @@ public class Symbols {
 			while(sc.hasNextLine() && !(thisLine = sc.nextLine()).equals("")) {
 				//thisLine = sc.nextLine();
 				//populate terminal and nonTerminal Sets.
-				parseSymbols(thisLine);
+				//parseSymbols(thisLine);
 				thisList = obj.parseOneLine(thisLine);
 				for(String s : thisList) {
 					simpleRulesList.add(s);
+					parseSymbols(s);
 				}
 			}
+			terminalSymMap = convertSetToMap(terminalSet);
+			nonTerminalSymMap = convertSetToMap(nonTerminalSet);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -74,5 +89,14 @@ public class Symbols {
 				}
 			}
 		}
+	}
+	
+	private Map<String, Integer> convertSetToMap(Set<String> set) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		int id = 0;
+		for(String s : set) {
+			map.put(s, id++);
+		}
+		return map;
 	}
 }
