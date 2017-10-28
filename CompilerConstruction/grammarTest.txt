@@ -1,0 +1,11 @@
+PPexpr = parens1 Expr parens2
+Expr = Expr Oprel Rterm | Rterm
+Rterm = Rterm Opadd Term | Term
+Term = Term Opmul Fact | Fact
+Fact = Basekind | Lval | Addrof_id | Fcall | PPexpr
+Addrof_id = ampersand id
+Oprel = opeq | opne | Lthan | ople | opge | Gthan
+Lthan = angle1
+Gthan = angle2
+Opadd = plus | minus
+Opmul = aster | slash | caret

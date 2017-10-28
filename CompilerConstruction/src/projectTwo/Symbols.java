@@ -1,5 +1,6 @@
 package projectTwo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,27 +27,40 @@ public class Symbols {
 		return nonTerminalSet;
 	}
 	protected void readGrammarFile(String fileName) {
-		Scanner sc = new Scanner(System.in);
-		String thisLine = "";
-		List<String> thisList = new ArrayList<String>();
-		Useless obj = new Useless();
-		//this will wait for an empty newline for termination.
-		while(sc.hasNextLine() && !(thisLine = sc.nextLine()).equals("")) {
-			thisLine = sc.nextLine();
-			//populate terminal and nonTerminal Sets.
-			parseSymbols(thisLine);
-			thisList = obj.parseOneLine(thisLine);
-			for(String s : thisList) {
-				simpleRulesList.add(s);
+		File file = new File(fileName);
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+			String thisLine = "";
+			//Scanner sc = new Scanner(System.in);
+			//String thisLine = "";
+			List<String> thisList = new ArrayList<String>();
+			Useless obj = new Useless();
+			//this will wait for an empty newline for termination.
+			while(sc.hasNextLine() && !(thisLine = sc.nextLine()).equals("")) {
+				//thisLine = sc.nextLine();
+				//populate terminal and nonTerminal Sets.
+				parseSymbols(thisLine);
+				thisList = obj.parseOneLine(thisLine);
+				for(String s : thisList) {
+					simpleRulesList.add(s);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
+		finally {
+			
+		}
+		
 	}
 	/***
 	 * this method parses a line of grammar and populates terminal and non-terminal sets with the respective sets. 
 	 * @param line
 	 */
 	private void parseSymbols(String line) {
-		String[] words = line.split("//s+");
+		String[] words = line.split("\\s+");
 		String thisWord = "";
 		char thisChar = ' ';
 		for(int i=0; i<words.length; i++) {

@@ -4,14 +4,26 @@ import java.util.List;
 import java.util.Set;
 
 public class TestProject2 {
-
+	static List<String> ruleList;
+	static Set<String> terminals;
+	static Set<String> nonTerminals;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Symbols symbols = new Symbols();
-		symbols.readGrammarFile("grammar.txt");
-		List<String> ruleList = symbols.getSimpleRulesList();
-		Set<String> terminals = symbols.getTerminalSet();
-		Set<String> nonTerminals = symbols.getNonTerminalSet();
+		
+		//parse grammar and populate Terminal and Non-Terminal Symbol Set
+		symbols.readGrammarFile("grammarTest.txt");
+		
+		//create first Set.
+		
+		//create follow set.
+		
+		//create LL table.
+		
+		
+		ruleList = symbols.getSimpleRulesList();
+		terminals = symbols.getTerminalSet();
+		nonTerminals = symbols.getNonTerminalSet();
 		System.out.println("Printing All Simple Rules:");
 		for(String str : ruleList) {
 			System.out.println(str);
@@ -25,11 +37,9 @@ public class TestProject2 {
 			System.out.println(str);
 		}
 		
-		//parse grammar.
+	
 		
-		//populate symbol sets.
 		
-		//create LL table
 		
 		//create follow set.
 		
