@@ -13,12 +13,25 @@ public class TestProject2 {
 		
 		//parse grammar and populate Terminal and Non-Terminal Symbol Set
 		symbols.readGrammarFile("grammarTest.txt");
+		symbols.populateNonTerminalVsRuleIdsMap();
 		
 		//create first Set.
-		
-		//create follow set.
+		FirstSet object = new FirstSet();
+		Map<Integer, List<String>> firstSet = object.getFirstSet();
+		System.out.println("FirstSet:");
+		for(Map.Entry<Integer, List<String>> entry: firstSet.entrySet()) {
+			System.out.print(entry.getKey()+": ");
+			List<String> values = entry.getValue();
+			for(String s : values) {
+				System.out.print(s+", ");
+			}
+			System.out.println();
+		}
 		
 		//create LL table.
+		
+		
+		//create follow set.
 		
 		
 		ruleList = symbols.getSimpleRulesList();

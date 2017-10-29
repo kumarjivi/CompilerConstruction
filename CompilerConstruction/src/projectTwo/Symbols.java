@@ -15,26 +15,38 @@ public class Symbols {
 	 * Also, it requests to simplify each line of grammar.
 	 * @param fileName
 	 */
-	private List<String> simpleRulesList = new ArrayList<String>();
+	//contains all simplified rules. The index is ruleId, so don't change the list once it is fully populated.
+	private static List<String> simpleRulesList = new ArrayList<String>();
+	
+	//set containing all terminal and non-terminal symbols.
 	private Set<String> terminalSet = new HashSet<String>();
 	private Set<String> nonTerminalSet = new HashSet<String>();
-	private Map<String, Integer> terminalSymMap = null;
-	private Map<String, Integer> nonTerminalSymMap = null;
-	Map<String, List<Integer>> nonTerminalVsRuleIdsMap = new HashMap<String, List<Integer>>();
 	
-	public List<String> getSimpleRulesList() {
+	//a map containing positions for all terminal and non-terminal symbols. Do not change it, to be used for making LL table. 
+	private static Map<String, Integer> terminalSymMap = null;
+	private static Map<String, Integer> nonTerminalSymMap = null;
+	
+	//a map containing details about which non terminal symbols appear in left side of what all ruleIds.
+	private static Map<String, List<Integer>> nonTerminalVsRuleIdsMap = new HashMap<String, List<Integer>>();
+	
+	public static List<String> getSimpleRulesList() {
 		return simpleRulesList;
 	}
 	
 	
-	public Map<String, Integer> getTerminalSymMap() {
+	public static Map<String, Integer> getTerminalSymMap() {
 		return terminalSymMap;
 	}
 	
 	
 
-	public Map<String, Integer> getNonTerminalSymMap() {
+	public static Map<String, Integer> getNonTerminalSymMap() {
 		return nonTerminalSymMap;
+	}
+
+
+	public static Map<String, List<Integer>> getNonTerminalVsRuleIdsMap() {
+		return nonTerminalVsRuleIdsMap;
 	}
 
 
@@ -84,7 +96,7 @@ public class Symbols {
 				thisChar = thisWord.charAt(0);
 				if(thisChar >= 65 && thisChar <= 90) {//this symbol starts with Capital Letter and is a non-Terminal symbol.
 					nonTerminalSet.add(thisWord);
-				} else if (thisChar >= 97 && thisChar <= 122) {//this symbol starts with Small Letter and is a terminal symbol.
+				} else {// if (thisChar >= 97 && thisChar <= 122) {//this symbol starts with Small Letter and is a terminal symbol.
 					terminalSet.add(thisWord);
 				}
 			}
@@ -98,5 +110,18 @@ public class Symbols {
 			map.put(s, id++);
 		}
 		return map;
+	}
+	
+	public void populateNonTerminalVsRuleIdsMap() {
+		for(int i=0; i<simpleRulesList.size(); i++) {
+			List<Integer> ids = new ArrayList<Integer>();
+			String thisRule = simpleRulesList.get(i);
+			String left = thisRule.split("=")[0].trim();
+			if(nonTerminalVsRuleIdsMap.get(left) != null) {
+				ids = nonTerminalVsRuleIdsMap.get(left);
+			}
+			ids.add(i);
+			nonTerminalVsRuleIdsMap.put(left, ids);
+		}
 	}
 }

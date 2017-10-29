@@ -10,12 +10,20 @@ public class FirstSet {
 	//WE are not converting non-terminal Symbols to actual values (from project one) here.
 	Symbols symbols  = new Symbols();
 	//To DO populate it.
-	Map<String, List<Integer>> nonTerminalVsRuleIdsMap = new HashMap<String, List<Integer>>();
+	Map<String, List<Integer>> nonTerminalVsRuleIdsMap = null;
+	List<String> simpleRuleList = null;
+	boolean[] checkProcessed;
+	public FirstSet() {
+		nonTerminalVsRuleIdsMap = Symbols.getNonTerminalVsRuleIdsMap();
+		simpleRuleList = Symbols.getSimpleRulesList();
+		if(simpleRuleList != null) {
+			checkProcessed = new boolean[simpleRuleList.size()];
+		}
+	}
 	
-	List<String> simpleRuleList = symbols.getSimpleRulesList();
-	boolean[] checkProcessed = new boolean[simpleRuleList.size()];
 	Map<Integer, List<String>> firstSetMap = new HashMap<Integer, List<String>>();
 	String thisRule = "";
+	
 	public Map<Integer, List<String>> getFirstSet() {
 		int index = 0;
 		int countProcessed = 0;
@@ -40,15 +48,16 @@ public class FirstSet {
 					checkProcessed[index] = true;
 					countProcessed++;
 				}
-				if(index < simpleRuleList.size()) {
-					index++;
-				} else {
-					index = 0;
-				}
+			}
+			if(index < simpleRuleList.size()) {
+				index++;
+			} else {
+				index = 0;
 			}
 		}
 		
 		return firstSetMap;
+		
 	}
 	
 	private boolean processForTerminalSymbols(String rule, int ruleId) {
@@ -58,7 +67,7 @@ public class FirstSet {
 		//if this is for a T symbol
 			//if yes, add to the map and return true
 		char thisChar = words[0].charAt(0); 
-		if(thisChar >= 97 && thisChar <= 122) {//its a terminal symbol
+		if(thisChar >= 97 && thisChar <= 122 || thisChar == 39) {//its a terminal symbol
 			List<String> values = new ArrayList<String>();
 			values.add(words[0]);
 			firstSetMap.put(ruleId, values);
@@ -70,9 +79,9 @@ public class FirstSet {
 	
 	private boolean processForNonTerminalSymbols(String rule, int ruleId) {
 		String[] parts = rule.split("=");
-		String left = parts[0].trim();
+		//String left = parts[0].trim();
 		String[] words = parts[1].trim().split("\\s+");
-		char thisChar = words[0].charAt(0);
+		//char thisChar = words[0].charAt(0);
 		List<String> queue = new LinkedList<String>();
 		queue.add(words[0]);
 		List<String> values = new ArrayList<String>();
@@ -84,17 +93,40 @@ public class FirstSet {
 			//else put the rule ids back in queue and iterate.
 			thisRule = queue.remove(0);
 			tempRuleIds = nonTerminalVsRuleIdsMap.get(thisRule);
+			if(tempRuleIds ==  null) {
+				continue;
+			}
 			for(Integer id: tempRuleIds) {
 				if(firstSetMap.containsKey(id)) {
 					for(String s : firstSetMap.get(id)) {
 						values.add(s);
 					}
 				} else {
-					queue.add(thisRule);
+					String rul = simpleRuleList.get(id);
+					String right = rul.split("=")[1].trim();
+					String val = right.split("\\s+")[0].trim();
+					//queue.add(rul.split("=")[1].split("\\s+")[0]);
+					queue.add(val);
 				}
 			}
-		}
 		
+//			//check while ruleIds correspond to this non-terminal.
+//			//if first set of these rule ids exists, put them in values,
+//			//else put the rule ids back in queue and iterate.
+//			thisRule = queue.remove(0);
+//			tempRuleIds = nonTerminalVsRuleIdsMap.get(thisRule);
+//			for(Integer id: tempRuleIds) {
+//				if(firstSetMap.containsKey(id)) {
+//					for(String s : firstSetMap.get(id)) {
+//						values.add(s);
+//					}
+//				} else {
+//					queue.add(thisRule);
+//				}
+//			}
+			
+		}
+		firstSetMap.put(ruleId, values);
 		return true;
 	}
 	
