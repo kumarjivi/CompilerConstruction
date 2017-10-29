@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.Map;
 
 public class FirstSet {
+	private static Map<Integer, List<String>> firstSetMap = new HashMap<Integer, List<String>>();
 	//WE are not converting non-terminal Symbols to actual values (from project one) here.
 	Symbols symbols  = new Symbols();
-	//To DO populate it.
 	Map<String, List<Integer>> nonTerminalVsRuleIdsMap = null;
 	List<String> simpleRuleList = null;
 	boolean[] checkProcessed;
+	
+	public static Map<Integer, List<String>> getFirstSetMap() {
+		return firstSetMap;
+	}
+
 	public FirstSet() {
 		nonTerminalVsRuleIdsMap = Symbols.getNonTerminalVsRuleIdsMap();
 		simpleRuleList = Symbols.getSimpleRulesList();
@@ -21,7 +26,7 @@ public class FirstSet {
 		}
 	}
 	
-	Map<Integer, List<String>> firstSetMap = new HashMap<Integer, List<String>>();
+//	Map<Integer, List<String>> firstSetMap = new HashMap<Integer, List<String>>();
 	String thisRule = "";
 	
 	public Map<Integer, List<String>> getFirstSet() {

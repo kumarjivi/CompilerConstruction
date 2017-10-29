@@ -91,12 +91,12 @@ public class Symbols {
 		String thisWord = "";
 		char thisChar = ' ';
 		for(int i=0; i<words.length; i++) {
-			thisWord = words[i];
+			thisWord = words[i].trim();
 			if(thisWord != "=" && thisWord != "|") {
 				thisChar = thisWord.charAt(0);
 				if(thisChar >= 65 && thisChar <= 90) {//this symbol starts with Capital Letter and is a non-Terminal symbol.
 					nonTerminalSet.add(thisWord);
-				} else {// if (thisChar >= 97 && thisChar <= 122) {//this symbol starts with Small Letter and is a terminal symbol.
+				} else if (thisChar >= 97 && thisChar <= 122 || thisChar == 39) {//this symbol starts with Small Letter and is a terminal symbol.
 					terminalSet.add(thisWord);
 				}
 			}

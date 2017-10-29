@@ -29,7 +29,25 @@ public class TestProject2 {
 		}
 		
 		//create LL table.
+		LLTable llTable = new LLTable();
+		int[][] res = llTable.populateLLTable();
+		System.out.println("Non-Terminal Symbols positions");
+		for(Map.Entry<String, Integer> nt : Symbols.getNonTerminalSymMap().entrySet()) {
+			System.out.println(nt.getKey()+": "+nt.getValue());
+			System.out.println();
+		}
+		System.out.println("Terminal Symbols positions");
+		for(Map.Entry<String, Integer> nt : Symbols.getTerminalSymMap().entrySet()) {
+			System.out.println(nt.getKey()+": "+nt.getValue());
+			System.out.println();
+		}
 		
+		for(int i=0; i<res.length; i++) {
+			for(int j=0; j<res[0].length; j++) {
+				System.out.println(res[i][j]+"\\t");
+			}
+			System.out.println();
+		}
 		
 		//create follow set.
 		
