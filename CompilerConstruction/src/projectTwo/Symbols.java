@@ -63,7 +63,7 @@ public class Symbols {
 			//Scanner sc = new Scanner(System.in);
 			//String thisLine = "";
 			List<String> thisList = new ArrayList<String>();
-			Useless obj = new Useless();
+			LRE obj = new LRE();
 			//this will wait for an empty newline for termination.
 			while(sc.hasNextLine() && !(thisLine = sc.nextLine()).equals("")) {
 				//thisLine = sc.nextLine();

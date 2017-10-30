@@ -3,7 +3,7 @@ package projectTwo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Useless {
+public class LRE {
 	/***
 	 * takes one line of grammar as it is from the input file and converts in to
 	 * separate rules.
