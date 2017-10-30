@@ -28,6 +28,10 @@ public class TestProject2 {
 			System.out.println();
 		}
 		
+		//create follow set. Not to Do.
+		FollowSet followSet = new FollowSet();
+		Map<String, List<String>> fSet = followSet.getFollowSet();
+		
 		//create LL table.
 		LLTable llTable = new LLTable();
 		int[][] res = llTable.populateLLTable();
@@ -49,9 +53,6 @@ public class TestProject2 {
 			System.out.println();
 		}
 		
-		//create follow set.
-		
-		
 		ruleList = symbols.getSimpleRulesList();
 		terminals = symbols.getTerminalSymMap();
 		nonTerminals = symbols.getNonTerminalSymMap();
@@ -70,13 +71,16 @@ public class TestProject2 {
 
 		
 		
-		
-		
-		//create follow set. Not to Do.
-		
 		//run parse machine
+		Parser parser = new Parser();
+		parser.parseUserInput("code.txt");
+		ParseMachine parseMachine = new ParseMachine();
+		parseMachine.startParserMachine();
 		
 		//create PST
+		PstNode root = ParseMachine.root;
+		Pst pst = new Pst();
+		pst.serializeTree(root);
 		
 		//create PST to AST.
 	}

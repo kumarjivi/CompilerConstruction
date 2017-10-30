@@ -18,8 +18,20 @@ public class Lexicon {
 	 * @param fileName to read lexicons from
 	 * @return
 	 */
+	public static Map<Integer, String> tokenIdVsTokenNameMap;
+	public Lexicon() {
+		tokenIdVsTokenNameMap = new HashMap<Integer, String>();
+	}
+	
+	
+	public static Map<Integer, String> getTokenIdVsTokenNameMap() {
+		return tokenIdVsTokenNameMap;
+	}
+
+
 	public Map<String, Integer> createLexiconFromFile(String fileName) {
 		Map<String, Integer> myMap = new HashMap<String, Integer>();
+		
 		Scanner sc = null;
 		try {
 			File file = new File(fileName);
@@ -31,6 +43,10 @@ public class Lexicon {
 				String temp = words[words.length-1];
 				int value = Integer.parseInt(words[0]);
 				String key = temp.substring(1, temp.length()-1); 
+				//
+				String tokenName = words[1];
+				tokenIdVsTokenNameMap.put(value, tokenName);
+				//
 				myMap.put(key, value);
 			}
 			System.out.println();

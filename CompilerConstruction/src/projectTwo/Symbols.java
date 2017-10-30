@@ -17,7 +17,7 @@ public class Symbols {
 	 */
 	//contains all simplified rules. The index is ruleId, so don't change the list once it is fully populated.
 	private static List<String> simpleRulesList = new ArrayList<String>();
-	
+	private static String startSymbol = "";
 	//set containing all terminal and non-terminal symbols.
 	private Set<String> terminalSet = new HashSet<String>();
 	private Set<String> nonTerminalSet = new HashSet<String>();
@@ -33,6 +33,9 @@ public class Symbols {
 		return simpleRulesList;
 	}
 	
+	public static String getStartSymbol() {
+		return startSymbol;
+	}
 	
 	public static Map<String, Integer> getTerminalSymMap() {
 		return terminalSymMap;
@@ -51,6 +54,7 @@ public class Symbols {
 
 
 	protected void readGrammarFile(String fileName) {
+		boolean startSymbolSet = false;
 		File file = new File(fileName);
 		Scanner sc = null;
 		try {
@@ -66,6 +70,10 @@ public class Symbols {
 				//populate terminal and nonTerminal Sets.
 				//parseSymbols(thisLine);
 				thisList = obj.parseOneLine(thisLine);
+				if(!startSymbolSet) {
+					startSymbol = thisLine.trim().split("=")[0].trim();
+					startSymbolSet = true;
+				}
 				for(String s : thisList) {
 					simpleRulesList.add(s);
 					parseSymbols(s);

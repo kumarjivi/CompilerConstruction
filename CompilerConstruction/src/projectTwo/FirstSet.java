@@ -9,7 +9,7 @@ import java.util.Map;
 public class FirstSet {
 	private static Map<Integer, List<String>> firstSetMap = new HashMap<Integer, List<String>>();
 	//WE are not converting non-terminal Symbols to actual values (from project one) here.
-	Symbols symbols  = new Symbols();
+	//Symbols symbols  = new Symbols();
 	Map<String, List<Integer>> nonTerminalVsRuleIdsMap = null;
 	List<String> simpleRuleList = null;
 	boolean[] checkProcessed;
